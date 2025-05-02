@@ -1,0 +1,295 @@
+{
+	"info": {
+		"_postman_id": "c25f1e63-8c9d-4a93-beb8-4cd1ea76e0c2",
+		"name": "Venue API",
+		"description": "Collection for Venue API with authentication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData && jsonData.accessToken) {",
+									"    pm.environment.set(\"JWT_TOKEN\", jsonData.accessToken);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"your-email@example.com\",\n    \"password\": \"your-password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login to get JWT token"
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication endpoints"
+		},
+		{
+			"name": "Venues",
+			"item": [
+				{
+					"name": "Get All Venues",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/venues?page=1&limit=10&sortBy=created_at&sortOrder=desc",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"venues"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "search",
+									"value": "example",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "Wedding",
+									"disabled": true
+								},
+								{
+									"key": "isActive",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "created_at"
+								},
+								{
+									"key": "sortOrder",
+									"value": "desc"
+								}
+							]
+						},
+						"description": "Get all venues with pagination and filtering options"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Venue by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/venues/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"venues",
+								"1"
+							]
+						},
+						"description": "Get a specific venue by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Venue",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"venue_name\": \"Example Venue\",\n  \"venue_description\": \"A beautiful venue for events\",\n  \"is_active\": true,\n  \"halls\": [\n    {\n      \"hall_name\": \"Main Hall\",\n      \"hall_description\": \"Large hall for weddings\",\n      \"hall_capacity\": 500,\n      \"hall_price\": 5000,\n      \"hall_is_active\": true\n    }\n  ],\n  \"start_price\": 5000,\n  \"end_price\": 10000,\n  \"location\": {\n    \"location_name\": \"Downtown\",\n    \"latitude\": 40.7128,\n    \"longitude\": -74.0060\n  },\n  \"time_slots\": [\n    {\n      \"start_time\": \"09:00\",\n      \"end_time\": \"17:00\"\n    }\n  ],\n  \"contact_info\": {\n    \"name\": \"John Doe\",\n    \"phone\": \"1234567890\",\n    \"email\": \"contact@venue.com\",\n    \"address\": \"123 Main St, Anytown\"\n  },\n  \"amenities\": [\"WiFi\", \"Parking\", \"Catering\"],\n  \"categories\": [\"Wedding\", \"Corporate\"],\n  \"images\": [\n    {\n      \"image_url\": \"https://example.com/image1.jpg\",\n      \"is_cover\": true\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/venues",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"venues"
+							]
+						},
+						"description": "Create a new venue (authenticated)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Venue",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"venue_name\": \"Updated Venue Name\",\n  \"venue_description\": \"Updated venue description\",\n  \"start_price\": 6000,\n  \"end_price\": 12000,\n  \"categories\": [\"Wedding\", \"Corporate\", \"Birthday\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/venues/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"venues",
+								"1"
+							]
+						},
+						"description": "Update an existing venue (authenticated)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Venue",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/venues/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"venues",
+								"1"
+							]
+						},
+						"description": "Delete a venue (authenticated)"
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle Venue Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/venues/1/toggle-status",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"venues",
+								"1",
+								"toggle-status"
+							]
+						},
+						"description": "Toggle the active status of a venue (authenticated)"
+					},
+					"response": []
+				}
+			],
+			"description": "Venue API endpoints"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+} 

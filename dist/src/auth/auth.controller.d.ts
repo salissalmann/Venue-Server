@@ -1,0 +1,113 @@
+import { UsersService } from './users.service';
+import { AuthService } from './auth.service';
+import { SignUpDto } from './dto/signup.dto';
+import { LoginDto } from './dto/login.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
+export declare class AuthController {
+    private readonly usersService;
+    private readonly authService;
+    constructor(usersService: UsersService, authService: AuthService);
+    signUp(signUpDto: SignUpDto): Promise<{
+        status: boolean;
+        message: string;
+        data: {
+            id: number;
+            first_name: string;
+            last_name: string;
+            email: string;
+            country_code: string;
+            phone_no: string;
+            is_google: boolean;
+            image: string;
+            city: string;
+            state: string;
+            country: string;
+            is_disabled: boolean;
+            is_deleted: boolean;
+            email_verified: boolean;
+            refresh_token: string;
+            created_at: Date;
+            updated_at: Date;
+            role: string[];
+        };
+        access_token: string;
+        refresh_token: string;
+    }>;
+    login(loginDto: LoginDto): Promise<{
+        status: boolean;
+        message: string;
+        user: Omit<{
+            password: string;
+            id: number;
+            first_name: string;
+            last_name: string;
+            email: string;
+            country_code: string;
+            phone_no: string;
+            is_google: boolean;
+            image: string;
+            city: string;
+            state: string;
+            country: string;
+            is_disabled: boolean;
+            is_deleted: boolean;
+            email_verified: boolean;
+            refresh_token: string;
+            created_at: Date;
+            updated_at: Date;
+            role: string[];
+        }, "password">;
+        access_token: string;
+        refresh_token: string;
+    }>;
+    refreshToken(refreshTokenDto: RefreshTokenDto): Promise<{
+        status: boolean;
+        message: string;
+        access_token: string;
+        refresh_token: string;
+        user: {
+            id: number;
+            first_name: string;
+            last_name: string;
+            email: string;
+            country_code: string;
+            phone_no: string;
+            is_google: boolean;
+            image: string;
+            city: string;
+            state: string;
+            country: string;
+            is_disabled: boolean;
+            is_deleted: boolean;
+            email_verified: boolean;
+            refresh_token: string;
+            created_at: Date;
+            updated_at: Date;
+            role: string[];
+        };
+    }>;
+    getUser(req: any): Promise<{
+        status: boolean;
+        message: string;
+        user: {
+            id: number;
+            first_name: string;
+            last_name: string;
+            email: string;
+            country_code: string;
+            phone_no: string;
+            is_google: boolean;
+            image: string;
+            city: string;
+            state: string;
+            country: string;
+            is_disabled: boolean;
+            is_deleted: boolean;
+            email_verified: boolean;
+            refresh_token: string;
+            created_at: Date;
+            updated_at: Date;
+            role: string[];
+        };
+    }>;
+}

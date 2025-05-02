@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "5dbd9c7a-e3b5-4675-b2f0-c1aab64c15bb",
+		"name": "NestJS Auth API",
+		"description": "A collection to test the NestJS authentication API endpoints.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"securepassword\",\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"country_code\": \"+1\",\n    \"phone_no\": \"1234567890\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"country\": \"USA\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8787/auth/sign-up",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8787",
+							"path": [
+								"auth",
+								"sign-up"
+							]
+						},
+						"description": "Register a new user"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"securepassword\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8787/auth/log-in",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8787",
+							"path": [
+								"auth",
+								"log-in"
+							]
+						},
+						"description": "Log in a user"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh_token\": \"{{refreshToken}}\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8787/auth/refresh-token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8787",
+							"path": [
+								"auth",
+								"refresh-token"
+							]
+						},
+						"description": "Refresh the access token using a refresh token"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8787/auth/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8787",
+							"path": [
+								"auth",
+								"user"
+							]
+						},
+						"description": "Get the current user's profile"
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication related endpoints"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Store tokens from login and refresh token responses",
+					"if (pm.response.code === 200) {",
+					"    const jsonResponse = pm.response.json();",
+					"    ",
+					"    if (jsonResponse.access_token) {",
+					"        pm.environment.set(\"accessToken\", jsonResponse.access_token);",
+					"    }",
+					"    ",
+					"    if (jsonResponse.refresh_token) {",
+					"        pm.environment.set(\"refreshToken\", jsonResponse.refresh_token);",
+					"    }",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8787",
+			"type": "string"
+		}
+	]
+} 
