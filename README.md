@@ -69,6 +69,27 @@ npm run start:prod
 
 ## API Endpoints
 
+### Health
+
+- `GET /health` — Process and database check. No token is required.
+  - `200` when the process is up and Postgres answers `select 1`
+  - `503` when the database check fails
+
+  Response:
+
+  ```json
+  {
+    "status": "ok",
+    "uptime_seconds": 42,
+    "timestamp": "2026-10-16T14:00:00.000Z",
+    "checks": {
+      "database": "up"
+    }
+  }
+  ```
+
+  The server listens on `PORT` when it is set, and on `8787` otherwise.
+
 ### Authentication
 
 - `POST /auth/signup` - Register a new user
