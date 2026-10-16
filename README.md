@@ -69,6 +69,33 @@ npm run start:prod
 
 ## API Endpoints
 
+### Health
+
+- `GET /health` — Process, Postgres, and Oracle. No token is required.
+  - `200` when Postgres answers
+  - `503` when the Postgres check fails
+  - `checks.oracle` is `integrated` when `ORACLE_USER`, `ORACLE_PASSWORD`, and `ORACLE_CONNECT_STRING` are set, and `not_configured` otherwise
+
+  Response:
+
+  ```json
+  {
+    "status": "ok",
+    "uptime_seconds": 42,
+    "timestamp": "2026-10-16T14:00:00.000Z",
+    "checks": {
+      "database": "up",
+      "oracle": "integrated"
+    },
+    "oracle": {
+      "product": "Oracle Database",
+      "connect_string": "localhost:1521/FREEPDB1"
+    }
+  }
+  ```
+
+  The server listens on `PORT` when it is set, and on `8787` otherwise.
+
 ### Authentication
 
 - `POST /auth/signup` - Register a new user

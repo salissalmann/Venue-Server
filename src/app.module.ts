@@ -5,6 +5,7 @@ import { DatabaseModule } from './db/database.module';
 import { StorageModule } from './storage/storage.module';
 import { VenuesModule } from './venues/venue.module';
 import { EventsModule } from './events/events.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { EventsModule } from './events/events.module';
     StorageModule,
     VenuesModule,
     EventsModule,
+    HealthModule,
   ],
   controllers: [],
   providers: [],
